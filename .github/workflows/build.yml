@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            accept-flake-config = true
+            experimental-features = nix-command flakes
+
+      - uses: cachix/cachix-action@v15
+        with:
+          name: lark-nix
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          # Avoid pushing on PRs from forks (no secrets available).
+          skipPush: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork }}
+
+      - name: Build lark
+        run: nix build .#lark --print-build-logs
+
+      - name: Show closure size
+        run: nix path-info -Sh .#lark
