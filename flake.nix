@@ -4,8 +4,7 @@
   nixConfig = {
     extra-substituters = [ "https://lark-nix.cachix.org" ];
     extra-trusted-public-keys = [
-      # Replace with the actual public key shown on cachix.org after the cache is created.
-      # "lark-nix.cachix.org-1:REPLACE_ME"
+      "lark-nix.cachix.org-1:l44MeIXQqzYeuz3NDq8JzBcMCdD4KCRAM9Q99miHl5w="
     ];
   };
 

@@ -35,10 +35,8 @@ To use the prebuilt binary cache, add to your `flake.nix` `nixConfig` or `/etc/n
 
 ```
 substituters       = https://lark-nix.cachix.org https://cache.nixos.org
-trusted-public-keys = lark-nix.cachix.org-1:<KEY> cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+trusted-public-keys = lark-nix.cachix.org-1:l44MeIXQqzYeuz3NDq8JzBcMCdD4KCRAM9Q99miHl5w= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
 ```
-
-The exact public key is shown on [the cache's page](https://app.cachix.org/cache/lark-nix).
 
 ## Supported systems
 
