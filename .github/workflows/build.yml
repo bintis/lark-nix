@@ -22,8 +22,6 @@ jobs:
         with:
           name: lark-nix
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-          # Avoid pushing on PRs from forks (no secrets available).
-          skipPush: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork }}
 
       - name: Build lark
         run: nix build .#lark --print-build-logs
