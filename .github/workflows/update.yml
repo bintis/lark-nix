@@ -21,8 +21,25 @@ jobs:
             accept-flake-config = true
             experimental-features = nix-command flakes
 
+      - uses: cachix/cachix-action@v17
+        with:
+          name: lark-nix
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
       - name: Run update.sh
         run: bash update.sh
+
+      # Pushes made with GITHUB_TOKEN don't trigger the build workflow, so
+      # build here: a bump that doesn't build is never committed, and a good
+      # one gets pushed to Cachix by cachix-action.
+      - name: Build lark if changed
+        run: |
+          if git diff --quiet lark.nix; then
+            echo "No changes, skipping build."
+            exit 0
+          fi
+          nix build .#lark --print-build-logs
+          nix path-info -Sh .#lark
 
       - name: Commit if changed
         id: commit
@@ -40,6 +57,3 @@ jobs:
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
-
-      # If we pushed, the build workflow will fire on the new commit and
-      # take care of building + pushing to Cachix. Nothing more to do here.
