@@ -159,9 +159,15 @@ stdenv.mkDerivation {
     mv opt/ $out/
 
     substituteInPlace $out/share/applications/bytedance-lark.desktop \
-      --replace /usr/bin/bytedance-lark-stable $out/opt/bytedance/lark/bytedance-lark
+      --replace-fail /usr/bin/bytedance-lark-stable $out/opt/bytedance/lark/bytedance-lark
 
-    for executable in $out/opt/bytedance/lark/{lark,vulcan/vulcan}; do
+    executables=("$out/opt/bytedance/lark/lark")
+    # Older releases (e.g. 7.66.10) also bundled vulcan; 7.72.23 no longer does.
+    if [ -e "$out/opt/bytedance/lark/vulcan/vulcan" ]; then
+      executables+=("$out/opt/bytedance/lark/vulcan/vulcan")
+    fi
+
+    for executable in "''${executables[@]}"; do
       wrapProgram $executable \
         --prefix XDG_DATA_DIRS    :  "$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH" \
         --prefix LD_LIBRARY_PATH  :  ${rpath}:$out/opt/bytedance/lark:${addDriverRunpath.driverLink}/share \
