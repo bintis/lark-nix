@@ -64,8 +64,8 @@
 let
   sources = {
     x86_64-linux = fetchurl {
-      url = "https://sf16-sg.larksuitecdn.com/obj/lark-version-sg/b69ee051/Lark-linux_x64-7.72.23.deb";
-      sha256 = "sha256-cSKhFlj8DqkTkrMkEYNzP4jRrG6ruyO+LLV24MhNrI8=";
+      url = "https://sf16-sg.larksuitecdn.com/obj/lark-version-sg/4c647c08/Lark-linux_x64-8.0.18.deb";
+      sha256 = "sha256-0WFobFrlLWmaFI12QxCGn1XTyoZtV6fiSWOq+oC2ejw=";
     };
   };
 
@@ -123,7 +123,7 @@ let
   ];
 in
 stdenv.mkDerivation {
-  version = "7.72.23";
+  version = "8.0.18";
   pname = "lark";
 
   src =
